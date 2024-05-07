@@ -1,60 +1,29 @@
-import { useEffect, useState } from "react";
-import DisplayArea from "./DisplayArea";
-import BotCollection from "./BotCollection";
-
-
+import { useEffect, useState } from 'react'
+import DisplayArea from './DisplayArea'
+import BotCollection from './BotCollection'
+import data from '../db.json'
 
 function App() {
- 
-    const [bots , setBots] = useState([])
+  const [bots, setBots] = useState([])
+  const [selectedBots, setSelectedBots] = useState([])
 
-   useEffect(() => {
-     fetch("http://localhost:3000/bots", {
-       method: "GET",
-       headers: {
-         "Content-Type": "application/json",
-       },
-     })
-       .then((res) => res.json())
+  useEffect(() => {
+    setBots(data.bots)
+  }, [])
 
-       .then((data) => setBots(data))
-       .catch((error) => console.error(error));
-   }, []);
-
-   console.log(bots)
-
-   function handleClick(id,classes){
-    if (botArmy.length >= 10){
-      alert("maximum limit reached")
-    }else{
-      if(classes.includes(classes)){
-        alert("member is already existing from bot_class")
-      }else {
-        bots.map((bot)=>{
-          if (bot.id ===id){
-            setArmy([...army,bot])
-            setClass([ ...classes, bot.bot_class])
-          }else {
-            const updateBots= bots.filter((bot)=> bot.id!== id)
-            setBots(updateBots)
-          }
-        })
-      }
-    }
-   }
+  // Function to handle bot selection
+  const handleBotSelect = (id) => {
+    const selectedBot = bots.find((bot) => bot.id === id)
+    setSelectedBots([...selectedBots, selectedBot])
+  }
 
   return (
     <>
-      
-          <main className=" container px-10">
-      <h1 className=" flex justify-center p-5 font-extrabold text-7xl">
-        Bot Battlr.
-      </h1>
-      <DisplayArea />
-      <BotCollection onBotClick={handleClick}/>
-      
+      <main className='flex flex-col gap-5 w-full px-6'>
+        <h1 className='flex justify-center p-5 font-extrabold text-7xl'>Bot Battlr.</h1>
+        <DisplayArea selectedBots={selectedBots} />
+        <BotCollection bots={bots} onSelect={handleBotSelect} />
       </main>
-       
     </>
   )
 }

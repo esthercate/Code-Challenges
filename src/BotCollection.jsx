@@ -1,36 +1,22 @@
-function BotCollection({
-  id,
-  name,
-  health,
-  damage,
-  armor,
-  bot_class,
-  catchphrase,
-  avatar_url,
-  created_at,
-  updated_at,
-}) {
+function BotCollection({ bots, onSelect }) {
   return (
-    <div className="grid grid-cols-5 gap-4 p-6">
-      <div className="w-full">
-        <img
-          src={avatar_url}
-          alt=""
-          className="w-full h-[250px] object-cover"
-        />
-        key={bot.id}
-        name={bot.name}
-        
-        category={bot.bot_class}
-        catchphrase={bot.catchphrase}
-        damage={bot.damage}
-        health={bot.health}
-        armor={bot.armor}
-        botClass={bot.bot_class}
-        id={bot.id}
+    <div className='flex flex-col gap-5 w-full bg-slate-300 px-4 pb-40 rounded-lg'>
+      <h1 className='text-2xl font-semibold py-2'>Your Bot Army</h1>
+      <div className='flex flex-wrap gap-3 justify-center'>
+        {bots.map((bot) => (
+          <div key={bot.id} onClick={() => onSelect(bot.id)} className='flex flex-col gap-2 w-72 bg-slate-400 rounded-md p-4 cursor-pointer'>
+            <img src={bot.avatar_url} className='w-40 h-40' alt='bot image' />
+            <span>{bot.name}</span>
+            <span>{`Health: ${bot.health}`}</span>
+            <span>{`Damage: ${bot.damage}`}</span>
+            <span>{`Armor: ${bot.armor}`}</span>
+            <span>{`Health: ${bot.health}`}</span>
+            <span>{`Bot_class: ${bot.bot_class}`}</span>
+          </div>
+        ))}
       </div>
     </div>
-  );
+  )
 }
 
 export default BotCollection;
